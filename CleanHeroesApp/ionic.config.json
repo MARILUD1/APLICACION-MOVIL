@@ -1,0 +1,7 @@
+{
+  "name": "CleanHeroesApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
