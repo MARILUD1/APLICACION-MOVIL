@@ -11,37 +11,53 @@
 
   <ion-list>
     <ion-item>
-      <ion-select label="Selecciona tu Rol" label-placement="floating">
+      <ion-select label="Selecciona tu Rol" label-placement="floating" [(ngModel)]="datos.rol">
         <ion-select-option value="ciudadano">Ciudadano (Héroe)</ion-select-option>
         <ion-select-option value="institucion">Institución / Empresa</ion-select-option>
         <ion-select-option value="gad">Municipio / GAD / Yanzatza</ion-select-option>
       </ion-select>
     </ion-item>
+    <ion-text color="danger" *ngIf="errores.rol" class="ion-margin-start">
+      <small>{{ errores.rol }}</small>
+    </ion-text>
 
     <ion-item>
-      <ion-input label="Nombre Completo" label-placement="floating" type="text"></ion-input>
+      <ion-input label="Nombre Completo" label-placement="floating" type="text" [(ngModel)]="datos.nombre"></ion-input>
     </ion-item>
+    <ion-text color="danger" *ngIf="errores.nombre" class="ion-margin-start">
+      <small>{{ errores.nombre }}</small>
+    </ion-text>
 
     <ion-item>
-      <ion-input label="Correo Electrónico" label-placement="floating" type="email"></ion-input>
+      <ion-input 
+        label="Correo Electrónico" 
+        label-placement="floating" 
+        type="email" 
+        autocapitalize="none" 
+        inputmode="email"
+        [(ngModel)]="datos.email">
+      </ion-input>
     </ion-item>
+    <ion-text color="danger" *ngIf="errores.email" class="ion-margin-start">
+      <small>{{ errores.email }}</small>
+    </ion-text>
 
     <ion-item>
-      <ion-input label="Contraseña" label-placement="floating" type="password"></ion-input>
+      <ion-input label="Contraseña" label-placement="floating" type="password" [(ngModel)]="datos.password"></ion-input>
     </ion-item>
+    <ion-text color="danger" *ngIf="errores.password" class="ion-margin-start">
+      <small>{{ errores.password }}</small>
+    </ion-text>
+
+    <ion-item>
+      <ion-input label="Confirmar Contraseña" label-placement="floating" type="password" [(ngModel)]="datos.confirmar"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="errores.confirmar" class="ion-margin-start">
+      <small>{{ errores.confirmar }}</small>
+    </ion-text>
   </ion-list>
-  
 
-  <ion-button expand="block" color="success" class="ion-margin-top">
+  <ion-button expand="block" color="success" class="ion-margin-top" (click)="ejecutarRegistro()">
     Registrarse
   </ion-button>
-</ion-content>
-<ion-item>
-  <ion-input 
-    label="Correo Electrónico" 
-    label-placement="floating" 
-    type="email" 
-    autocapitalize="none" 
-    inputmode="email">
-  </ion-input>
-</ion-item>
+</ion-content>   
