@@ -1,70 +1,62 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import * as yup from 'yup'; // Importamos Yup para las validaciones
+import { ReactiveFormsModule, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { 
-  IonContent, IonHeader, IonTitle, IonToolbar, IonList, 
-  IonItem, IonInput, IonSelect, IonSelectOption, IonButton, IonText 
+  IonContent, IonHeader, IonTitle, IonToolbar, IonButton, 
+  IonGrid, IonRow, IonCol, IonList, IonItem, IonInput, IonText 
 } from '@ionic/angular/standalone';
+import { RouterModule } from '@angular/router';
+import { of } from 'rxjs';
+import { delay, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.page.html',
-  styleUrls: ['./registro.page.scss'],
   standalone: true,
   imports: [
-    IonContent, IonHeader, IonTitle, IonToolbar, IonList, 
-    IonItem, IonInput, IonSelect, IonSelectOption, IonButton, 
-    IonText, CommonModule, FormsModule
+    IonContent, IonHeader, IonTitle, IonToolbar, IonButton, 
+    IonGrid, IonRow, IonCol, IonList, IonItem, IonInput, IonText,
+    CommonModule, ReactiveFormsModule, RouterModule // ReactiveFormsModule es clave
   ]
 })
 export class RegistroPage implements OnInit {
+  registroForm: FormGroup;
 
-  // 1. Objeto para capturar los datos del formulario
-  datos = {
-    nombre: '',
-    email: '',
-    rol: '',
-    password: '',
-    confirmar: ''
-  };
+  constructor() {
+    // Centralización de reglas en un esquema (FormGroup)
+    this.registroForm = new FormGroup({
+      nombre: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      direccion: new FormControl('', [Validators.required]),
+      correo: new FormControl('', 
+        [Validators.required, Validators.email], 
+        [this.validarCorreoAsincrono] // Validación asíncrona con delay
+      ),
+      password: new FormControl('', [Validators.required, Validators.minLength(8)]),
+      confirmarPassword: new FormControl('', [Validators.required])
+    }, { validators: this.validarContrasenasIguales }); // Validación cruzada
+  }
 
-  // 2. Objeto para almacenar mensajes de error y mostrarlos en el HTML
-  errores: any = {};
+  ngOnInit() {}
 
-  // 3. Definición del Esquema de Validación (Punto c de la guía)
-  esquemaRegistro = yup.object().shape({
-    nombre: yup.string().required('El nombre es obligatorio'),
-    email: yup.string().email('Formato de correo inválido').required('El correo es requerido'),
-    rol: yup.string().required('Debes seleccionar un rol'),
-    password: yup.string().min(8, 'La contraseña debe tener al menos 8 caracteres').required('Contraseña obligatoria'),
-    confirmar: yup.string()
-      .oneOf([yup.ref('password')], 'Las contraseñas no coinciden') // Validación cruzada
-      .required('Confirma tu contraseña')
-  });
+  // Validación Cruzada: Compara contraseñas
+  validarContrasenasIguales(control: AbstractControl) {
+    const pass = control.get('password')?.value;
+    const confirm = control.get('confirmarPassword')?.value;
+    return pass === confirm ? null : { noCoincide: true };
+  }
 
-  constructor() { }
+  // Validación Asíncrona: Simula verificar correo con Debounce/Delay
+  validarCorreoAsincrono(control: AbstractControl) {
+    const emailInvalido = 'test@test.com';
+    return of(control.value).pipe(
+      delay(1000), // Simula el tiempo de espera (debounce/network)
+      map(email => (email === emailInvalido ? { correoTomado: true } : null))
+    );
+  }
 
-  ngOnInit() { }
-
-  // 4. Función de Registro con validación robusta (Punto d)
-  async ejecutarRegistro() {
-    try {
-      this.errores = {}; // Limpiamos errores anteriores
-      
-      // Validamos todos los campos a la vez
-      await this.esquemaRegistro.validate(this.datos, { abortEarly: false });
-      
-      // Si pasa la validación:
-      console.log('Datos válidos:', this.datos);
-      alert('¡Registro exitoso en CleanHeroes!');
-      
-    } catch (err: any) {
-      // Si hay errores, los capturamos para el feedback accesible
-      err.inner.forEach((e: any) => {
-        this.errores[e.path] = e.message;
-      });
-      console.log('Errores encontrados:', this.errores);
+  enviarRegistro() {
+    if (this.registroForm.valid) {
+      console.log('Datos válidos:', this.registroForm.value);
     }
   }
 }

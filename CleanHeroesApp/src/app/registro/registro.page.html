@@ -1,63 +1,48 @@
 <ion-header>
   <ion-toolbar color="success">
-    <ion-title>Registro CleanHeroes</ion-title>
+    <ion-title>Registro de Usuario</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <div style="text-align: center; margin-bottom: 20px;">
-    <h2>Crear Cuenta "Yanzatza Limpio"</h2>
-  </div>
+  <form [formGroup]="registroForm" (ngSubmit)="enviarRegistro()">
+    <ion-list>
+      <ion-item>
+        <ion-input label="Nombre" labelPlacement="stacked" formControlName="nombre"></ion-input>
+      </ion-item>
+      
+      <ion-item>
+        <ion-input label="Correo" labelPlacement="stacked" formControlName="correo"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="registroForm.get('correo')?.hasError('correoTomado')">
+        <small style="padding-left: 15px;">Este correo ya está registrado.</small>
+      </ion-text>
 
-  <ion-list>
-    <ion-item>
-      <ion-select label="Selecciona tu Rol" label-placement="floating" [(ngModel)]="datos.rol">
-        <ion-select-option value="ciudadano">Ciudadano (Héroe)</ion-select-option>
-        <ion-select-option value="institucion">Institución / Empresa</ion-select-option>
-        <ion-select-option value="gad">Municipio / GAD / Yanzatza</ion-select-option>
-      </ion-select>
-    </ion-item>
-    <ion-text color="danger" *ngIf="errores.rol" class="ion-margin-start">
-      <small>{{ errores.rol }}</small>
-    </ion-text>
+      <ion-item>
+        <ion-input label="Dirección" labelPlacement="stacked" formControlName="direccion"></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-input label="Nombre Completo" label-placement="floating" type="text" [(ngModel)]="datos.nombre"></ion-input>
-    </ion-item>
-    <ion-text color="danger" *ngIf="errores.nombre" class="ion-margin-start">
-      <small>{{ errores.nombre }}</small>
-    </ion-text>
+      <ion-item>
+        <ion-input label="Contraseña" labelPlacement="stacked" type="password" formControlName="password"></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-input 
-        label="Correo Electrónico" 
-        label-placement="floating" 
-        type="email" 
-        autocapitalize="none" 
-        inputmode="email"
-        [(ngModel)]="datos.email">
-      </ion-input>
-    </ion-item>
-    <ion-text color="danger" *ngIf="errores.email" class="ion-margin-start">
-      <small>{{ errores.email }}</small>
-    </ion-text>
+      <ion-item>
+        <ion-input label="Confirmar Contraseña" labelPlacement="stacked" type="password" formControlName="confirmarPassword"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="registroForm.hasError('noCoincide') && registroForm.get('confirmarPassword')?.touched">
+        <small style="padding-left: 15px;">Las contraseñas no coinciden.</small>
+      </ion-text>
+    </ion-list>
 
-    <ion-item>
-      <ion-input label="Contraseña" label-placement="floating" type="password" [(ngModel)]="datos.password"></ion-input>
-    </ion-item>
-    <ion-text color="danger" *ngIf="errores.password" class="ion-margin-start">
-      <small>{{ errores.password }}</small>
-    </ion-text>
-
-    <ion-item>
-      <ion-input label="Confirmar Contraseña" label-placement="floating" type="password" [(ngModel)]="datos.confirmar"></ion-input>
-    </ion-item>
-    <ion-text color="danger" *ngIf="errores.confirmar" class="ion-margin-start">
-      <small>{{ errores.confirmar }}</small>
-    </ion-text>
-  </ion-list>
-
-  <ion-button expand="block" color="success" class="ion-margin-top" (click)="ejecutarRegistro()">
-    Registrarse
-  </ion-button>
-</ion-content>   
+    <ion-grid>
+      <ion-row>
+        <ion-col size="2">
+          <ion-button expand="block" fill="outline" color="success" routerLink="/onboarding">ATRÁS</ion-button>
+        </ion-col>
+        <ion-col size="2">
+          <ion-button expand="block" color="success" [disabled]="registroForm.invalid" routerLink="/login">SIGUIENTE</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
