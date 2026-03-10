@@ -1,0 +1,17 @@
+# Dependencias de Node (NO subir - pesan mucho)
+node_modules/
+
+# Variables de entorno (NO subir - tiene contraseñas)
+.env
+
+# Archivos temporales
+*.log
+npm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+
+# Build
+dist/
+build/

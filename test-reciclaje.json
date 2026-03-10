@@ -1,0 +1,7 @@
+﻿{
+  "userId": 1,
+  "materiales": [
+    {"tipo": "botella_pet", "cantidad": 2.5, "unidad": "kg"}
+  ],
+  "ubicacion": {"lat": -4.0667, "lon": -78.1167}
+}
