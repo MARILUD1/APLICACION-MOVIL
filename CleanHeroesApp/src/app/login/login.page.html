@@ -10,23 +10,46 @@
     <h2>CleanHeroes Lite</h2>
     <p style="color: #666; margin-bottom: 20px;">Ingresa tus credenciales</p>
 
-    <form [formGroup]="loginForm" style="width: 100%; max-width: 400px;">
+    <!-- ✅ AGREGADO: (ngSubmit) para manejo correcto del formulario -->
+    <form [formGroup]="loginForm" (ngSubmit)="ingresar()" style="width: 100%; max-width: 400px;">
       <ion-list style="border-radius: 10px;">
+        
+        <!-- Campo Correo -->
         <ion-item>
-          <ion-input label="Correo" labelPlacement="stacked" formControlName="correo" placeholder="ejemplo@correo.com"></ion-input>
+          <ion-input 
+            label="Correo" 
+            labelPlacement="stacked" 
+            formControlName="correo" 
+            placeholder="ejemplo@correo.com"
+            type="email">
+          </ion-input>
         </ion-item>
         <ion-text color="danger" *ngIf="loginForm.get('correo')?.invalid && loginForm.get('correo')?.touched">
-          <small style="padding-left: 15px;">Ingrese un correo válido.</small>
+          <small style="padding-left: 15px;">
+            <span *ngIf="loginForm.get('correo')?.errors?.['required']">El correo es obligatorio.</span>
+            <span *ngIf="loginForm.get('correo')?.errors?.['email']">Formato de correo no válido.</span>
+          </small>
         </ion-text>
 
+        <!-- Campo Contraseña -->
         <ion-item>
-          <ion-input label="Contraseña" labelPlacement="stacked" type="password" formControlName="password" placeholder="********"></ion-input>
+          <ion-input 
+            label="Contraseña" 
+            labelPlacement="stacked" 
+            type="password" 
+            formControlName="password" 
+            placeholder="********">
+          </ion-input>
         </ion-item>
         <ion-text color="danger" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-          <small style="padding-left: 15px;">La contraseña debe tener al menos 8 caracteres.</small>
+          <small style="padding-left: 15px;">
+            <span *ngIf="loginForm.get('password')?.errors?.['required']">La contraseña es obligatoria.</span>
+            <span *ngIf="loginForm.get('password')?.errors?.['minlength']">Debe tener al menos 8 caracteres.</span>
+          </small>
         </ion-text>
       </ion-list>
 
+      <!-- Botones de acción -->
       <ion-grid style="margin-top: 25px;">
         <ion-row>
           <ion-col size="6">
@@ -35,12 +58,47 @@
             </ion-button>
           </ion-col>
           <ion-col size="6">
-            <ion-button expand="block" color="primary" [disabled]="loginForm.invalid" (click)="ingresar()">
+            <!-- ✅ AGREGADO: type="submit" para comportamiento estándar -->
+            <ion-button 
+              type="submit" 
+              expand="block" 
+              color="primary" 
+              [disabled]="loginForm.invalid || loginForm.pending">
               INGRESAR
             </ion-button>
           </ion-col>
         </ion-row>
       </ion-grid>
     </form>
+
+    <!-- ✅ AGREGADO: Enlace a registro para nuevos usuarios -->
+    <ion-row class="ion-justify-content-center ion-margin-top">
+      <ion-col size="auto">
+        <ion-text color="medium">
+          <small>
+            ¿No tienes cuenta? 
+            <a routerLink="/registro" style="color: var(--ion-color-primary); text-decoration: none; font-weight: bold;">
+              Regístrate
+            </a>
+          </small>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+
+    <!-- ✅ OPCIONAL: Enlace "¿Olvidaste tu contraseña?" -->
+    <!-- 
+    <ion-row class="ion-justify-content-center ion-margin-top">
+      <ion-col size="auto">
+        <ion-text color="medium">
+          <small>
+            <a href="#" style="color: var(--ion-color-primary); text-decoration: none;">
+              ¿Olvidaste tu contraseña?
+            </a>
+          </small>
+        </ion-text>
+      </ion-col>
+    </ion-row> 
+    -->
+
   </div>
 </ion-content>

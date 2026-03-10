@@ -1,19 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-// AGREGA IonIcon y IonButton AQUÍ
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonIcon } from '@ionic/angular/standalone';
-import { RouterModule } from '@angular/router'; // Necesario para el routerLink
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { OnboardingPage } from './onboarding.page';
 
-@Component({
-  selector: 'app-onboarding',
-  templateUrl: './onboarding.page.html',
-  styleUrls: ['./onboarding.page.scss'],
-  standalone: true,
-  // ASEGÚRATE DE QUE ESTÉN EN ESTA LISTA TAMBIÉN
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonIcon, CommonModule, FormsModule, RouterModule]
-})
-export class OnboardingPage implements OnInit {
-  constructor() { }
-  ngOnInit() { }
-}
+describe('OnboardingPage', () => {
+  let component: OnboardingPage;
+  let fixture: ComponentFixture<OnboardingPage>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [OnboardingPage]
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(OnboardingPage);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

@@ -1,0 +1,77 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>🌍 Calidad del Aire</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="ion-text-center ion-margin">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error" class="ion-text-center ion-margin">
+    <p style="color: red;">❌ {{ error }}</p>
+    <ion-button (click)="loadAirQuality()">Reintentar</ion-button>
+  </div>
+
+  <!-- Resultados -->
+  <div *ngIf="airQuality && !loading">
+    
+    <!-- AQI Principal -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Índice de Calidad del Aire</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <h1 style="text-align: center; font-size: 48px; font-weight: bold;">
+          {{ airQuality.data.aqi }}
+        </h1>
+        <p style="text-align: center; font-size: 20px;">
+          {{ airQuality.data.aqiDescription }}
+        </p>
+        <p style="text-align: center; font-size: 12px; color: gray;">
+          📍 {{ airQuality.location }}<br>
+          🕐 {{ airQuality.timestamp | date:'short' }}
+        </p>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Contaminantes -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>🔬 Contaminantes</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p><strong>PM2.5:</strong> {{ airQuality.data.components.pm2_5 }} μg/m³</p>
+        <p><strong>PM10:</strong> {{ airQuality.data.components.pm10 }} μg/m³</p>
+        <p><strong>O3:</strong> {{ airQuality.data.components.o3 }} μg/m³</p>
+        <p><strong>NO2:</strong> {{ airQuality.data.components.no2 }} μg/m³</p>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Recomendaciones -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>♻️ Recomendaciones</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ul>
+          <li *ngFor="let rec of airQuality.data.recommendations">
+            {{ rec }}
+          </li>
+        </ul>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Botón Actualizar -->
+    <ion-button expand="block" (click)="loadAirQuality()" color="secondary">
+      🔄 Actualizar Datos
+    </ion-button>
+
+  </div>
+
+</ion-content>

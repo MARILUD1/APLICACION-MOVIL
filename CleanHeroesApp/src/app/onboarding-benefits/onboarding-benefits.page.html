@@ -1,0 +1,74 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="success">
+    <ion-title>Beneficios CleanHeroes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div style="display: flex; flex-direction: column; align-items: center; min-height: 85%; text-align: center;">
+    
+    <!-- Ícono Principal -->
+    <ion-icon name="trophy-outline" style="font-size: 80px;" color="warning"></ion-icon>
+    
+    <!-- Título -->
+    <h1 style="font-weight: bold; font-size: 24px; margin: 20px 0;">Gana Recompensas</h1>
+    <p style="color: #666; margin-bottom: 30px;">Por mantener limpia tu ciudad</p>
+    
+    <!-- Lista de Beneficios -->
+    <ion-list style="width: 100%; max-width: 400px; text-align: left; margin-bottom: 30px;">
+      <ion-item lines="none">
+        <ion-icon name="checkmark-circle" color="success" slot="start" style="font-size: 24px;"></ion-icon>
+        <ion-label style="margin-left: 10px;">
+          <strong>🎁 Cupones de descuento</strong><br/>
+          <small color="medium">En comercios locales aliados</small>
+        </ion-label>
+      </ion-item>
+      
+      <ion-item lines="none">
+        <ion-icon name="checkmark-circle" color="success" slot="start" style="font-size: 24px;"></ion-icon>
+        <ion-label style="margin-left: 10px;">
+          <strong>🌱 Kits ecológicos</strong><br/>
+          <small color="medium">Por nivel alcanzado</small>
+        </ion-label>
+      </ion-item>
+      
+      <ion-item lines="none">
+        <ion-icon name="checkmark-circle" color="success" slot="start" style="font-size: 24px;"></ion-icon>
+        <ion-label style="margin-left: 10px;">
+          <strong>🏆 Reconocimiento comunitario</strong><br/>
+          <small color="medium">Destaca como héroe ambiental</small>
+        </ion-label>
+      </ion-item>
+      
+      <ion-item lines="none">
+        <ion-icon name="checkmark-circle" color="success" slot="start" style="font-size: 24px;"></ion-icon>
+        <ion-label style="margin-left: 10px;">
+          <strong>📊 Impacto medible</strong><br/>
+          <small color="medium">Mira tu contribución a la ciudad</small>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <!-- Botones de Navegación -->
+    <ion-grid style="width: 100%; max-width: 400px;">
+      <ion-row>
+        <ion-col size="6">
+          <ion-button expand="block" fill="outline" color="success" routerLink="/onboarding">
+            ATRÁS
+          </ion-button>
+        </ion-col>
+        <ion-col size="6">
+          <ion-button expand="block" color="success" routerLink="/onboarding-permissions">
+            SIGUIENTE
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    
+    <!-- Botón Saltar -->
+    <ion-button fill="clear" color="medium" routerLink="/registro" style="margin-top: 10px;">
+      SALTAR
+    </ion-button>
+    
+  </div>
+</ion-content>

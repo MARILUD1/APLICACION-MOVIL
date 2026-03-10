@@ -1,20 +1,45 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<!-- Estado de conexión (agregar al inicio del ion-content) -->
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>🔗 Backend</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-text [color]="mensaje.includes('✅') ? 'success' : 'danger'">
+      <h3>{{ mensaje }}</h3>
+    </ion-text>
+  </ion-card-content>
+</ion-card>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<!-- Materiales disponibles -->
+<ion-card *ngIf="materiales.length > 0">
+  <ion-card-header>
+    <ion-card-title>♻️ Materiales</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-list>
+      <ion-item *ngFor="let m of materiales">
+        <ion-label>
+          <h3>{{ m.descripcion }}</h3>
+          <p>🎯 {{ m.puntosPorKg }} pts/kg | 🌱 {{ m.co2PorKg }} kg CO₂</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-card-content>
+</ion-card>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
-</ion-content>
+<!-- Clima de Yantzaza -->
+<ion-card *ngIf="clima?.success">
+  <ion-card-header>
+    <ion-card-title>🌤️ Yantzaza</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <p>🌡️ {{ clima.data?.temperatura }}°C</p>
+    <p>💧 Humedad: {{ clima.data?.humedad }}%</p>
+    <p>📝 {{ clima.data?.descripcion }}</p>
+  </ion-card-content>
+</ion-card>
+
+<!-- Botón de prueba -->
+<ion-button expand="block" color="success" (click)="registrarReciclajePrueba()">
+  🧪 Probar Registrar Reciclaje
+</ion-button>

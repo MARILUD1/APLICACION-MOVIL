@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';  // ✅ Sin OnInit
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { 
@@ -18,7 +18,7 @@ import { leafOutline } from 'ionicons/icons';
     IonIcon, IonGrid, IonRow, IonCol, CommonModule, FormsModule, RouterModule
   ]
 })
-export class OnboardingPage implements OnInit {
-  constructor() { addIcons({ leafOutline }); }
-  ngOnInit() {}
+export class OnboardingPage {  // ✅ Sin "implements OnInit"
+  constructor() { addIcons({ leafOutline }); } 
+  // ✅ ngOnInit() eliminado
 }
