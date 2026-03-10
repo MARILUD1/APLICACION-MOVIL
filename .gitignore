@@ -1,7 +1,7 @@
-# Dependencias de Node (NO subir - pesan mucho)
+# Dependencias de Node
 node_modules/
 
-# Variables de entorno (NO subir - tiene contraseñas)
+# Variables de entorno (IMPORTANTE)
 .env
 
 # Archivos temporales
@@ -11,7 +11,3 @@ npm-debug.log*
 # IDE
 .vscode/
 .idea/
-
-# Build
-dist/
-build/
