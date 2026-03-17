@@ -1,0 +1,30 @@
+// =================================================================
+// ESTE ES: settings.gradle (para proyecto Capacitor)
+// Ruta: CleanHeroesApp/android/settings.gradle
+// =================================================================
+
+pluginManagement {
+  repositories {
+    google()
+    mavenCentral()
+    gradlePluginPortal()
+  }
+}
+
+dependencyResolutionManagement {
+  // ✅ PREFER_PROJECT permite repositorios en app/build.gradle
+  repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
+  repositories {
+    google()
+    mavenCentral()
+  }
+}
+
+// ✅ Incluir módulos de Capacitor
+include ':app'
+include ':capacitor-cordova-android-plugins'
+
+// ✅ Aplicar configuración adicional de Capacitor (si existe)
+apply from: 'capacitor.settings.gradle'
+
+rootProject.name = "CleanHeroes"
