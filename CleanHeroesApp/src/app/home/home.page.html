@@ -1,44 +1,86 @@
-<ion-card>
-  <ion-card-header>
-    <ion-card-title>📸 Cámara de Reciclaje</ion-card-title>
-  </ion-card-header>
-  <ionCardContent>
-    <ionButton 
-      expand="block" 
-      color="primary"
-      (click)="tomarFotoReciclaje()"
-      [disabled]="cargandoFoto">
-      {{ cargandoFoto ? '📸 Abriendo...' : '📷 Tomar Foto' }}
-    </ionButton>
-    
-    <!-- Mostrar foto tomada -->
-    <div *ngIf="fotoReciente" class="foto-preview" style="margin-top: 15px;">
-      <ionImg [src]="fotoReciente" alt="Foto tomada" style="max-width: 100%; border-radius: 8px;"></ionImg>
-      <ionText color="success">
-        <p style="margin-top: 8px;">✅ Foto tomada y guardada</p>
-      </ionText>
-    </div>
-  </ionCardContent>
-</ion-card>
-<ion-card>
-  <ion-card-header>
-    <ion-card-title>📸 Cámara de Reciclaje</ion-card-title>
-  </ion-card-header>
-  <ionCardContent>
-    <ionButton 
-      expand="block" 
-      color="primary"
-      (click)="tomarFotoReciclaje()"
-      [disabled]="cargandoFoto">
-      {{ cargandoFoto ? '📸 Abriendo...' : '📷 Tomar Foto' }}
-    </ionButton>
-    
-    <!-- Mostrar foto tomada -->
-    <div *ngIf="fotoReciente" class="foto-preview" style="margin-top: 15px;">
-      <ionImg [src]="fotoReciente" alt="Foto tomada" style="max-width: 100%; border-radius: 8px;"></ionImg>
-      <ionText color="success">
-        <p style="margin-top: 8px;">✅ Foto tomada y guardada</p>
-      </ionText>
-    </div>
-  </ionCardContent>
-</ion-card>
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>CleanHeroes 🦸</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">Salir</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Hola, {{ userName }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Mensaje de estado -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Estado</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-text [color]="mensaje.includes('✅') ? 'success' : 'danger'">
+        <p>{{ mensaje }}</p>
+      </ion-text>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- 📸 CÁMARA DE RECICLAJE -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>📸 Cámara de Reciclaje</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button 
+        expand="block" 
+        color="primary"
+        (click)="tomarFotoReciclaje()"
+        [disabled]="cargandoFoto">
+        {{ cargandoFoto ? '📸 Abriendo...' : '📷 Tomar Foto' }}
+      </ion-button>
+      
+      <div *ngIf="fotoReciente" class="foto-preview" style="margin-top: 15px;">
+        <ion-img [src]="fotoReciente" alt="Foto tomada" 
+                 style="max-width: 100%; border-radius: 8px;"></ion-img>
+        <ion-text color="success">
+          <p style="margin-top: 8px;">✅ Foto tomada y guardada</p>
+        </ion-text>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Materiales -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>♻️ Materiales</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let material of materiales">
+          <ion-label>
+            <h2>{{ material.tipo }}</h2>
+            <p>Puntos: {{ material.puntos || 0 }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Acciones -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>📝 Acciones</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button expand="block" color="success" 
+                  (click)="registrarReciclajePrueba()">
+        ♻️ Registrar Reciclaje
+      </ion-button>
+      <ion-button expand="block" color="secondary" 
+                  (click)="goToAirQuality()">
+        🌤️ Calidad del Aire
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

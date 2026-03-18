@@ -8,7 +8,9 @@ export class CameraService {
 
   constructor() { }
 
-  
+  /**
+   * Tomar una foto con la cámara
+   */
   async takePhoto(): Promise<Photo | null> {
     try {
       const photo = await Camera.getPhoto({
@@ -24,7 +26,9 @@ export class CameraService {
     }
   }
 
-  
+  /**
+   * Seleccionar una foto de la galería
+   */
   async pickPhoto(): Promise<Photo | null> {
     try {
       const photo = await Camera.getPhoto({
