@@ -1,45 +1,44 @@
-<!-- Estado de conexión (agregar al inicio del ion-content) -->
 <ion-card>
   <ion-card-header>
-    <ion-card-title>🔗 Backend</ion-card-title>
+    <ion-card-title>📸 Cámara de Reciclaje</ion-card-title>
   </ion-card-header>
-  <ion-card-content>
-    <ion-text [color]="mensaje.includes('✅') ? 'success' : 'danger'">
-      <h3>{{ mensaje }}</h3>
-    </ion-text>
-  </ion-card-content>
+  <ionCardContent>
+    <ionButton 
+      expand="block" 
+      color="primary"
+      (click)="tomarFotoReciclaje()"
+      [disabled]="cargandoFoto">
+      {{ cargandoFoto ? '📸 Abriendo...' : '📷 Tomar Foto' }}
+    </ionButton>
+    
+    <!-- Mostrar foto tomada -->
+    <div *ngIf="fotoReciente" class="foto-preview" style="margin-top: 15px;">
+      <ionImg [src]="fotoReciente" alt="Foto tomada" style="max-width: 100%; border-radius: 8px;"></ionImg>
+      <ionText color="success">
+        <p style="margin-top: 8px;">✅ Foto tomada y guardada</p>
+      </ionText>
+    </div>
+  </ionCardContent>
 </ion-card>
-
-<!-- Materiales disponibles -->
-<ion-card *ngIf="materiales.length > 0">
+<ion-card>
   <ion-card-header>
-    <ion-card-title>♻️ Materiales</ion-card-title>
+    <ion-card-title>📸 Cámara de Reciclaje</ion-card-title>
   </ion-card-header>
-  <ion-card-content>
-    <ion-list>
-      <ion-item *ngFor="let m of materiales">
-        <ion-label>
-          <h3>{{ m.descripcion }}</h3>
-          <p>🎯 {{ m.puntosPorKg }} pts/kg | 🌱 {{ m.co2PorKg }} kg CO₂</p>
-        </ion-label>
-      </ion-item>
-    </ion-list>
-  </ion-card-content>
+  <ionCardContent>
+    <ionButton 
+      expand="block" 
+      color="primary"
+      (click)="tomarFotoReciclaje()"
+      [disabled]="cargandoFoto">
+      {{ cargandoFoto ? '📸 Abriendo...' : '📷 Tomar Foto' }}
+    </ionButton>
+    
+    <!-- Mostrar foto tomada -->
+    <div *ngIf="fotoReciente" class="foto-preview" style="margin-top: 15px;">
+      <ionImg [src]="fotoReciente" alt="Foto tomada" style="max-width: 100%; border-radius: 8px;"></ionImg>
+      <ionText color="success">
+        <p style="margin-top: 8px;">✅ Foto tomada y guardada</p>
+      </ionText>
+    </div>
+  </ionCardContent>
 </ion-card>
-
-<!-- Clima de Yantzaza -->
-<ion-card *ngIf="clima?.success">
-  <ion-card-header>
-    <ion-card-title>🌤️ Yantzaza</ion-card-title>
-  </ion-card-header>
-  <ion-card-content>
-    <p>🌡️ {{ clima.data?.temperatura }}°C</p>
-    <p>💧 Humedad: {{ clima.data?.humedad }}%</p>
-    <p>📝 {{ clima.data?.descripcion }}</p>
-  </ion-card-content>
-</ion-card>
-
-<!-- Botón de prueba -->
-<ion-button expand="block" color="success" (click)="registrarReciclajePrueba()">
-  🧪 Probar Registrar Reciclaje
-</ion-button>

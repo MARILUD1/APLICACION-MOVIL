@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
-// ✅ Importar componentes de Ionic que necesites
+// ✅ Importar componentes de Ionic
 import { 
   IonContent,
   IonHeader,
@@ -17,10 +17,13 @@ import {
   IonItem,
   IonLabel,
   IonButton,
-  IonText
+  IonText,
+  IonImg  // ← ← ← AGREGADO: Para mostrar imágenes
 } from '@ionic/angular/standalone';
 
 import { CleanheroesApiService } from '../Services/cleanheroes-api';
+import { CameraService } from '../Services/camera.service';  // ← ← ← AGREGADO
+import { Photo } from '@capacitor/camera';  // ← ← ← AGREGADO
 
 @Component({
   selector: 'app-home',
@@ -28,7 +31,6 @@ import { CleanheroesApiService } from '../Services/cleanheroes-api';
   standalone: true,
   imports: [
     CommonModule,
-    // ← ← ← Agregar componentes de Ionic que uses en el HTML
     IonContent,
     IonHeader,
     IonTitle,
@@ -41,7 +43,8 @@ import { CleanheroesApiService } from '../Services/cleanheroes-api';
     IonItem,
     IonLabel,
     IonButton,
-    IonText
+    IonText,
+    IonImg  // ← ← ← AGREGADO
   ]
 })
 export class HomePage implements OnInit {
@@ -49,10 +52,15 @@ export class HomePage implements OnInit {
   mensaje: string = 'Conectando...';
   materiales: any[] = [];
   clima: any = null;
+  
+  // ✅ NUEVO: Propiedades para la cámara
+  fotoReciente: string | null = null;
+  cargandoFoto: boolean = false;
 
   constructor(
     private router: Router,
-    private apiService: CleanheroesApiService
+    private apiService: CleanheroesApiService,
+    private cameraService: CameraService  // ← ← ← AGREGADO
   ) {
     const userData = localStorage.getItem('user');
     if (userData) {
@@ -102,6 +110,52 @@ export class HomePage implements OnInit {
     } catch (error: any) {
       console.error('❌ Error:', error);
       alert('Error: ' + (error?.message || 'No se pudo registrar'));
+    }
+  }
+
+  // ✅ NUEVO: MÉTODO PARA TOMAR FOTO CON CÁMARA
+  async tomarFotoReciclaje() {
+    this.cargandoFoto = true;
+    this.mensaje = '📸 Abriendo cámara...';
+    
+    try {
+      const photo = await this.cameraService.takePhoto();
+      
+      if (photo && photo.webPath) {
+        this.fotoReciente = photo.webPath;
+        this.mensaje = '✅ ¡Foto tomada!';
+        console.log('📸 Foto guardada:', photo.webPath);
+        
+        // Opcional: Registrar el reciclaje con la foto
+        await this.registrarReciclajeConFoto(photo.webPath);
+      } else {
+        this.mensaje = '❌ No se tomó la foto';
+      }
+    } catch (error: any) {
+      console.error('❌ Error:', error);
+      this.mensaje = '❌ Error: ' + (error?.message || 'Cámara fallida');
+    } finally {
+      this.cargandoFoto = false;
+    }
+  }
+
+  // ✅ NUEVO: MÉTODO PARA REGISTRAR RECICLAJE CON FOTO
+  async registrarReciclajeConFoto(fotoPath: string) {
+    try {
+      const data = {
+        userId: 1, // Cambiar por usuario real
+        materiales: [
+          { tipo: 'botella_pet', cantidad: 1.0, unidad: 'kg', foto: fotoPath }
+        ],
+        ubicacion: { lat: -4.0667, lon: -78.1167 },
+        fotoUrl: fotoPath
+      };
+
+      const resp = await this.apiService.registrarReciclaje(data).toPromise();
+      console.log('✅ Reciclaje con foto registrado:', resp);
+    } catch (error: any) {
+      console.error('❌ Error registrando con foto:', error);
+      // No mostrar error al usuario, solo loguear
     }
   }
 
